@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
+from graphs import plot_reviews_by_stars, plot_average_star_by_category
 
 # Load data
 df_en = pd.read_csv('data/df_assurance_en_prepro.csv')
@@ -45,22 +46,30 @@ st.title('NLP Project 2 - Streamlit App')
 lang = st.selectbox('Select Language', ['en', 'fr'])
 df = df_en if lang == 'en' else df_fr
 
-st.write(f"Displaying data for language: {lang}")
+tab1, tab2 = st.tabs(["Analysis", "Graphs"])
 
-if st.checkbox('Show raw data'):
-    st.write(df.head())
+with tab1:
+    st.write(f"Displaying data for language: {lang}")
 
-st.subheader('Sentiment Analysis')
-sample_reviews = df.sample(5)[f'avis_{lang}'].tolist()
-sentiments = sentiment_pipeline(sample_reviews)
-for review, sentiment in zip(sample_reviews, sentiments):
-    st.write(f"Review: {review}")
-    st.write(f"Predicted Sentiment (1-5): {sentiment}")
-    st.write("---")
+    if st.checkbox('Show raw data'):
+        st.write(df.head())
 
-st.subheader('Subject Classification')
-subjects = subject_pipeline(sample_reviews, lang=lang)
-for review, subject in zip(sample_reviews, subjects):
-    st.write(f"Review: {review}")
-    st.write(f"Predicted Subject: {subject}")
-    st.write("---")
+    st.subheader('Sentiment Analysis')
+    sample_reviews = df.sample(5)[f'avis_{lang}'].tolist()
+    sentiments = sentiment_pipeline(sample_reviews)
+    for review, sentiment in zip(sample_reviews, sentiments):
+        st.write(f"Review: {review}")
+        st.write(f"Predicted Sentiment (1-5): {sentiment}")
+        st.write("---")
+
+    st.subheader('Subject Classification')
+    subjects = subject_pipeline(sample_reviews, lang=lang)
+    for review, subject in zip(sample_reviews, subjects):
+        st.write(f"Review: {review}")
+        st.write(f"Predicted Subject: {subject}")
+        st.write("---")
+
+with tab2:
+    st.subheader('Graphs')
+    plot_reviews_by_stars(df)
+    plot_average_star_by_category(df)
