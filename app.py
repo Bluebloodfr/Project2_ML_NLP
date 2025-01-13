@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
-from graphs import plot_reviews_by_stars, plot_average_star_by_category
+from graphs import plot_reviews_by_stars, plot_average_star_by_category, plot_average_star_by_insurer, plot_number_of_reviews_by_insurer, plot_categories_by_insurer
 
 # Load data
 df_en = pd.read_csv('data/df_assurance_en_prepro.csv')
@@ -73,3 +73,6 @@ with tab2:
     st.subheader('Graphs')
     plot_reviews_by_stars(df)
     plot_average_star_by_category(df)
+    plot_average_star_by_insurer(df)
+    plot_number_of_reviews_by_insurer(df)
+    plot_categories_by_insurer(df)
