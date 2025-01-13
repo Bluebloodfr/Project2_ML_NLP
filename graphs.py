@@ -54,7 +54,7 @@ def plot_categories_by_insurer(df):
     pivot_df.plot(kind='bar', stacked=True, figsize=(14, 10), colormap='viridis')
     plt.title('Top Categories by Insurer')
     plt.xlabel('Insurer')
-    plt.xticks(rotation=60)
+    plt.xticks(rotation=75)
     plt.ylabel('Number of Reviews')
     plt.legend(title='Category')
     plt.grid(True)
