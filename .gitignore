@@ -1,3 +1,2 @@
 .venv
-
-data\assurance\*
+__pycache__
